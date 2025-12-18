@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blood Donation - Register</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, rgba(218,68,83,0.9), rgba(137,33,107,0.9)),
+                  url('https://png.pngtree.com/background/20210711/original/pngtree-geometric-gradient-creative-blood-donation-poster-background-material-picture-image_1127152.jpg');
+
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .register-box {
+      background: rgba(255,255,255,0.95);
+      padding: 40px 40px 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(140,32,65,0.16);
+      width: 320px;
+      animation: fadeInDown 1s;
+    }
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-40px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    .register-box h2 {
+      color: #DA4453;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .input-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: bold;
+    }
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1.5px solid #DA4453;
+      border-radius: 8px;
+      outline: none;
+      font-size: 1em;
+      background: #f8f8f8;
+      transition: border-color 0.2s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      border-color: #89216B;
+    }
+    .btn-register {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #DA4453, #89216B);
+      color: white;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(218,68,83,0.15);
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn-register:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(218,68,83,0.23);
+    }
+    .switch-link {
+      display: block;
+      text-align: center;
+      margin-top: 17px;
+      color: #DA4453;
+      text-decoration: none;
+      font-size: 0.97em;
+    }
+    .switch-link:hover {
+      text-decoration: underline;
+    }
+    .success-msg {
+      color: #27ae60;
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <div class="input-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" required>
+      </div>
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="input-group">
+        <label for="bloodgroup">Blood Group</label>
+        <select id="bloodgroup" name="bloodgroup" required>
+          <option value="">--Select--</option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+      </div>
+      <button type="submit" class="btn-register">Register</button>
+      <a href="C:\Users\syamd\OneDrive\Desktop\project demo\gpt.html" class="switch-link">Already have an account? Login</a>
+      <div id="registerMessage" class="success-msg"></div>
+    </form>
+  </div>
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      document.getElementById("registerMessage").textContent = 
+        "Registration successful. You can now login.";
+      setTimeout(function() {
+        window.location.href = "login.html";
+      }, 1400);
+    });
+  </script>
+</body>
+</html>

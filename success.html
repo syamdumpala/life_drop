@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submission Successful</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, #8e0000, #b71c1c, #d32f2f);
+      background-size: 400% 400%;
+      animation: bloodFlow 8s ease infinite;
+    }
+    @keyframes bloodFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+    .btn {
+      padding: 12px 25px;
+      background: white;
+      color: #b71c1c;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      transition: 0.3s;
+      text-decoration: none;
+      z-index: 2;
+    }
+    .btn:hover { background: #f5f5f5; color: #8e0000; }
+
+    /* Blood drop animation */
+    .drop {
+      position: absolute;
+      width: 20px;
+      height: 30px;
+      background: #b71c1c;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity: 0.8;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-50px) scale(0.8); opacity: 1; }
+      100% { transform: translateY(110vh) scale(1.2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>✅ Successfully Submitted</h1>
+  <a href="C:\Users\syamd\OneDrive\Desktop\project demo\home.html" class="btn">🔙 Go Back</a>
+
+  <!-- Floating blood drops -->
+  <script>
+    function createDrop() {
+      const drop = document.createElement('div');
+      drop.classList.add('drop');
+      drop.style.left = Math.random() * window.innerWidth + 'px';
+      drop.style.animationDuration = (3 + Math.random() * 5) + 's';
+      drop.style.width = drop.style.height = (10 + Math.random() * 20) + 'px';
+      document.body.appendChild(drop);
+      setTimeout(() => { drop.remove(); }, 8000);
+    }
+    setInterval(createDrop, 300);
+  </script>
+</body>
+</html>

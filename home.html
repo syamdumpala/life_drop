@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Give Life — Blood Donation & Request Portal</title>
+  <style>
+    :root{
+      --accent1: #d32f2f;
+      --accent2: #b71c1c;
+      --muted: #f4f7fb;
+      --card: #ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(120deg, rgba(240,248,255,0.9), rgba(255,240,240,0.9));
+      background-size: 400% 400%;
+      animation: bgFlow 14s ease-in-out infinite;
+      color:#222;
+    }
+    @keyframes bgFlow{
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+    header{
+      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:#fff;
+      padding:20px;
+      text-align:center;
+      font-weight:700;
+      font-size:22px;
+      box-shadow: 0 6px 18px rgba(183,28,28,0.18);
+      position:sticky;
+      top:0;
+      z-index:20;
+    }
+    .tabs {
+      display:flex;
+      max-width:1150px;
+      margin:18px auto 0;
+      border-radius:10px;
+      overflow:hidden;
+    }
+    .tabs button{
+      flex:1;
+      padding:14px 12px;
+      border:0;
+      cursor:pointer;
+      color:#fff;
+      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      font-weight:600;
+      transition: all .18s ease;
+    }
+    .tabs button.active{ opacity:1 }
+    .tabs button:not(.active){ opacity:0.7 }
+    .tabs button:hover{ transform:translateY(-2px); }
+    .main-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      max-width: 1150px;
+      margin: 30px auto;
+      align-items: start;
+      padding: 0 14px 40px;
+    }
+    @media (max-width: 900px) {
+      .main-layout { grid-template-columns: 1fr; }
+    }
+    form.card{
+      background:var(--card);
+      padding:22px;
+      border-radius:12px;
+      box-shadow: 0 12px 30px rgba(23,23,23,0.06);
+      display:none;
+    }
+    form.card.active{ display:block }
+    form.card h2{ margin:0 0 12px; color:var(--accent2); text-align:center; }
+    label{ display:block; margin-top:12px; font-weight:600; font-size:13px; }
+    input, select{
+      width:100%;
+      padding:11px 12px;
+      margin-top:6px;
+      border-radius:8px;
+      border:1px solid #d6dbe6;
+      font-size:14px;
+    }
+    .btn-row{ display:flex; gap:10px; margin-top:18px; }
+    .btn {
+      flex:1;
+      padding:12px;
+      border-radius:10px;
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .btn-primary{ background:var(--accent1); color:#fff }
+    .btn-secondary{ background:#f9c84a; }
+    .btn-muted{ background:#9e9e9e; color:#fff }
+    .hospital-info{ margin-top:18px; text-align:center; }
+    .hospital-photo{
+      width:100%; max-width:520px; height:300px; object-fit:cover;
+      border-radius:10px;
+    }
+    .hospital-contact{ background:#fbfbff; border-radius:8px; margin-top:12px; padding:12px; text-align:left; }
+    .hospital-contact p{ margin:6px 0; font-size:14px; }
+    .hospital-contact strong{ color:var(--accent2) }
+    iframe.map-embed{
+      width:100%; height:260px; border:0; margin-top:12px; border-radius:8px;
+    }
+    .sidebar{
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+      position:sticky;
+      top:90px;
+    }
+    .quote-box{
+      background: linear-gradient(180deg,#fff7f7,#fff);
+      border-left:6px solid var(--accent1);
+      padding:18px;
+      border-radius:10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    .quote-box h4{ margin:0 0 10px; color:var(--accent2) }
+    @keyframes fadeSlide {
+      0%   { opacity: 0; transform: translateY(12px); }
+      20%  { opacity: 1; transform: translateY(0); }
+      80%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-12px); }
+    }
+    .quote-animate {
+      display:inline-block;
+      animation: fadeSlide 6s ease-in-out infinite;
+    }
+    .contact-section{
+      margin-top:34px;
+      background: linear-gradient(90deg,var(--accent2),var(--accent1));
+      color:white;
+      padding:28px;
+      border-radius:12px;
+      text-align:center;
+    }
+    .contact-list{ max-width:860px; margin:0 auto; font-weight:600; line-height:1.8 }
+  </style>
+</head>
+<body>
+  <header>🩸 LIFE DROP — Every Drop Matters </header>
+
+  <div class="tabs">
+    <button class="active" id="tab-donate" onclick="openForm('donate')">Donate Blood</button>
+    <button id="tab-request" onclick="openForm('request')">Request Blood</button>
+  </div>
+
+  <div class="main-layout">
+    <div class="forms-column">
+      <!-- Donate Form -->
+      <form id="donate" class="card active" action="success.html" method="get">
+        <h2>🩸 Donor Registration</h2>
+        <label>Full Name</label><input type="text" required>
+        <label>Age</label><input type="number" min="16" required>
+        <label>Blood Group</label>
+        <select required>
+          <option value="">--Select--</option>
+          <option>A+</option><option>A-</option>
+          <option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option>
+          <option>AB+</option><option>AB-</option>
+        </select>
+        <label>Contact Number</label><input type="text" required>
+         <label for="time-slot">Preferred Time Slot:</label>
+      <select id="time-slot" name="time-slot" required>
+        <option value="">-- Select a Time Slot --</option>
+        <option value="9-10am">09:00 AM - 10:00 AM</option>
+        <option value="10-11am">10:00 AM - 11:00 AM</option>
+        <option value="11-12pm">11:00 AM - 12:00 PM</option>
+        <option value="2-3pm">02:00 PM - 03:00 PM</option>
+        <option value="3-4pm">03:00 PM - 04:00 PM</option>
+        <option value="4-5pm">04:00 PM - 05:00 PM</option>
+      </select>
+        <label>Select District</label>
+        <select id="ddistrict" onchange="updateHospitals('dhospital', this.value)" required>
+          <option value="">--Select District--</option>
+          <option>Kakinada</option><option>Visakhapatnam</option>
+          <option>Vijayawada</option><option>Srikakulam</option><option>Vizianagaram</option>
+        </select>
+        <label>Select Hospital</label>
+        <select id="dhospital" onchange="showHospitalInfo('d')" required>
+          <option value="">--Select Hospital--</option>
+        </select>
+        <div id="dinfo" class="hospital-info"></div>
+        <div class="btn-row">
+          <button class="btn btn-primary" type="submit">Submit</button>
+          <button class="btn btn-secondary" type="reset">Reset</button>
+          <button class="btn btn-muted" type="button" onclick="openForm('request')">Switch to Request</button>
+        </div>
+      </form>
+
+      <!-- Request Form -->
+      <form id="request" class="card" action="success.html" method="get">
+        <h2>🏥 Blood Request Form</h2>
+        <label>Patient Name</label><input type="text" required>
+        <label>Age</label><input type="number" required>
+        <label>Blood Group</label>
+        <select required>
+          <option value="">--Select--</option>
+          <option>A+</option><option>A-</option>
+          <option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option>
+          <option>AB+</option><option>AB-</option>
+        </select>
+        <label>Select District</label>
+        <select id="rdistrict" onchange="updateHospitals('rhospital', this.value)" required>
+          <option value="">--Select District--</option>
+          <option>Kakinada</option><option>Visakhapatnam</option>
+          <option>Vijayawada</option><option>Srikakulam</option><option>Vizianagaram</option>
+        </select>
+        <label>Select Hospital</label>
+        <select id="rhospital" onchange="showHospitalInfo('r')" required>
+          <option value="">--Select Hospital--</option>
+        </select>
+        <div id="rinfo" class="hospital-info"></div>
+        <div class="btn-row">
+          <button class="btn btn-primary" type="submit">Request</button>
+          <button class="btn btn-secondary" type="reset">Reset</button>
+          <button class="btn btn-muted" type="button" onclick="openForm('donate')">Switch to Donate</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="quote-box"><h4>💡 Donation Quotes</h4><span id="donateQuote" class="quote-animate">Donate blood and be someone’s hero today.</span></div>
+      <div class="quote-box"><h4>🩸 Inspiring Thoughts</h4><span id="requestQuote" class="quote-animate">Give blood, give life, give hope.</span></div>
+      <div class="quote-box"><h4>💙 Health & Wellness</h4><span id="healthQuote" class="quote-animate">Healthy donors build a healthier world.</span></div>
+      <div class="quote-box"><h4>🌍 Humanity & Community</h4><span id="communityQuote" class="quote-animate">We rise by lifting others.</span></div>
+    </aside>
+  </div>
+
+  <!-- Video -->
+  <div style="text-align:center; margin:40px auto; max-width:900px;">
+    <h2 style="color:#b71c1c;">🎥 BLOOD DONATION CAMP ORGANIZED BY NSS IN OUR CAMPUS</h2>
+    <video width="100%" controls style="border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.15); margin-top:14px;">
+      <source src="video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Contact -->
+  <div class="contact-section">
+    <h3>📞 Contact & Support</h3>
+    <div class="contact-list">
+      <div><strong>24/7 Helpline:</strong> +91 8000-123-456</div>
+      <div><strong>Email:</strong> support@lifedrop.org</div>
+    </div>
+  </div>
+
+  <script>
+const hospitals = {
+  "Kakinada": {
+    "Apollo Hospitals": {
+      img: "https://www.addressguru.in/images/1651578491.png",
+      map: "https://maps.google.com/maps?q=Apollo%20Hospitals%20Kakinada&output=embed",
+      phone: "+91 8841234567",
+      address: "Ramanayyapeta, Kakinada"
+    },
+    "Aditya Hospitals": {
+      img: "https://content3.jdmagicbox.com/v2/comp/kakinada/a4/9999px884.x884.230918181323.m3a4/catalogue/sri-aditya-hospitals-kakinada-hospitals-peeq9st8cv.jpg",
+      map: "https://maps.google.com/maps?q=Aditya%20Hospitals%20Kakinada&output=embed",
+      phone: "+91 8847654321",
+      address: "Main Road, Kakinada"
+    },
+    "Government General Hospital": {
+      img: "https://www.deccanchronicle.com/h-upload/2025/06/05/1925048-governmentgeneralhospitalinkakinada.webp",
+      map: "https://maps.google.com/maps?q=Government%20General%20Hospital%20Kakinada&output=embed",
+      phone: "+91 8841112233",
+      address: "Gnanapuram, Kakinada"
+    },
+    "Praveen Hospital": {
+      img: "https://content.jdmagicbox.com/comp/guntur/q6/9999px863.x863.230703152442.f2q6/catalogue/praveen-hospital-pedapalakaluru-guntur-hospitals-sor1p9pbp4-250.jpg",
+      map: "https://maps.google.com/maps?q=Praveen%20Hospital%20Kakinada&output=embed",
+      phone: "+91 8846677889",
+      address: "Suryaraopeta, Kakinada"
+    },
+    "Trust Hospital": {
+      img: "https://content.jdmagicbox.com/comp/kakinada/m6/9999px884.x884.180329115419.i2m6/catalogue/trust-hospital-sarpavaram-junction-kakinada-dermatologists-1kcfjq0ek9.jpg",
+      map: "https://maps.google.com/maps?q=Trust%20Hospital%20Kakinada&output=embed",
+      phone: "+91 8845566778",
+      address: "Main Road, Kakinada"
+    }
+  },
+  "Visakhapatnam": {
+    "SevenHills Hospitals": {
+      img: "https://mbbscouncilcdn.s3.ap-south-1.amazonaws.com/wp-content/uploads/2017/04/Seven-Hills-Hospital-Visakhapatn.jpg",
+      map: "https://maps.google.com/maps?q=Seven%20Hills%20Hospital%20Visakhapatnam&output=embed",
+      phone: "+91 8912345678",
+      address: "Waltair Main Road, Visakhapatnam"
+    },
+    "King George Hospital": {
+      img: "https://content3.jdmagicbox.com/comp/visakhapatnam/e7/0891px891.x891.220723013206.s9e7/catalogue/king-george-hospital-maharanipeta-visakhapatnam-public-hospitals-ARBpSMAI5c.jpg",
+      map: "https://maps.google.com/maps?q=King%20George%20Hospital%20Visakhapatnam&output=embed",
+      phone: "+91 8918765432",
+      address: "Maharani Peta, Visakhapatnam"
+    },
+    "Care Hospitals": {
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJCeltsJV9bD6fkWtx7691wqG5tcdDD41pAA&s",
+      map: "https://maps.google.com/maps?q=Care%20Hospitals%20Visakhapatnam&output=embed",
+      phone: "+91 8914455667",
+      address: "Ram Nagar, Visakhapatnam"
+    },
+    "Q1 Hospitals": {
+      img: "https://q1hospitals.com/images/gallery/0Q1%20NABH.JPG",
+      map: "https://maps.google.com/maps?q=Q1%20Hospitals%20Visakhapatnam&output=embed",
+      phone: "+91 8917788990",
+      address: "Gajuwaka, Visakhapatnam"
+    },
+    "Anil Neerukonda Hospital": {
+      img: "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670849123144_HospitalProfileImage_80dd977d-fbfa-4cbc-b06d-03807464ade1.png",
+      map: "https://maps.google.com/maps?q=Anil%20Neerukonda%20Hospital%20Visakhapatnam&output=embed",
+      phone: "+91 8913344556",
+      address: "Tagarapuvalasa, Visakhapatnam"
+    }
+  },
+  "Vijayawada": {
+    "Manipal Hospitals": {
+      img: "https://content3.jdmagicbox.com/comp/vijayawada/x6/0866px866.x866.130701163402.y2x6/catalogue/manipal-super-speciality-hospital-tadepalli-vijayawada-hospitals-31387ujvz1.jpg",
+      map: "https://maps.google.com/maps?q=Manipal%20Hospitals%20Vijayawada&output=embed",
+      phone: "+91 8662233445",
+      address: "Tadepalli, Vijayawada"
+    },
+    "Aster Ramesh Hospitals": {
+      img: "https://www.asterhospitals.in/sites/default/files/2023-07/Aster%20Ramesh%20MG.jpg",
+      map: "https://maps.google.com/maps?q=Aster%20Ramesh%20Hospitals%20Vijayawada&output=embed",
+      phone: "+91 8669988776",
+      address: "MG Road, Vijayawada"
+    },
+    "Andhra Hospitals": {
+      img: "https://images.jdmagicbox.com/v2/comp/vijayawada/66/0866p141stdf001166/catalogue/andhra-hospitals-governerpet-vijayawada-hospitals-kmbtp0z2it.jpg",
+      map: "https://maps.google.com/maps?q=Andhra%20Hospitals%20Vijayawada&output=embed",
+      phone: "+91 8662500000",
+      address: "Governorpet, Vijayawada"
+    },
+    "Trust Hospital": {
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToZiXIfH33PNMFWO9C7AXjxOB3IhbEUhfIhQ&s",
+      map: "https://maps.google.com/maps?q=Trust%20Hospital%20Vijayawada&output=embed",
+      phone: "+91 8664455667",
+      address: "Benz Circle, Vijayawada"
+    },
+    "Sentini Hospitals": {
+      img: "https://cdn.hexahealth.com/Image/1730720947433-943727524.png",
+      map: "https://maps.google.com/maps?q=Sentini%20Hospitals%20Vijayawada&output=embed",
+      phone: "+91 8665566778",
+      address: "Ring Road, Vijayawada"
+    }
+  },
+  "Srikakulam": {
+    "Government Medical College Hospital": {
+      img: "https://gmcsrikakulam.org/admin/upload/rgims-srikakulam.png",
+      map: "https://maps.google.com/maps?q=Government%20Medical%20College%20Hospital%20Srikakulam&output=embed",
+      phone: "+91 8942112233",
+      address: "Balaga, Srikakulam"
+    },
+    "Sri Surya Hospital": {
+      img: "https://content.jdmagicbox.com/comp/srikakulam/k4/9999p8942.8942.231019194918.t5k4/catalogue/surya-hospital-srikakulam-hospitals-fjp7glkgla.jpg",
+      map: "https://maps.google.com/maps?q=Sri%20Surya%20Hospital%20Srikakulam&output=embed",
+      phone: "+91 8942445566",
+      address: "Palasa Road, Srikakulam"
+    },
+    "RIMS Srikakulam": {
+      img: "https://collegekaka.com/wp-content/uploads/2023/12/RIMS-Srikakulam.jpg",
+      map: "https://maps.google.com/maps?q=RIMS%20Hospital%20Srikakulam&output=embed",
+      phone: "+91 8942556677",
+      address: "Balaga, Srikakulam"
+    },
+    "Vennela Hospital": {
+      img: "https://www.mappls.com/place/HTM8I3_1717067500572_0.png",
+      map: "https://maps.google.com/maps?q=Vennela%20Hospital%20Srikakulam&output=embed",
+      phone: "+91 8942778899",
+      address: "Palakonda Road, Srikakulam"
+    },
+    "St. Ann’s Hospital": {
+      img: "https://static.wixstatic.com/media/d5fd7f_acabeb6f38be48948c37ef36c5725275~mv2.jpeg/v1/fill/w_1280,h_960,al_c/d5fd7f_acabeb6f38be48948c37ef36c5725275~mv2.jpeg",
+      map: "https://maps.google.com/maps?q=St%20Ann’s%20Hospital%20Srikakulam&output=embed",
+      phone: "+91 8942334455",
+      address: "Main Road, Srikakulam"
+    }
+  },
+  "Vizianagaram": {
+    "Maharajah Institute of Medical Sciences": {
+      img: "https://content3.jdmagicbox.com/v2/comp/vizianagaram/b6/9999p8922.8922.171128111209.c1b6/catalogue/maharajahs-institute-of-medical-sciences-hospital-nellimarla-vizianagaram-private-hospitals-mj7suy603j.jpg",
+      map: "https://maps.google.com/maps?q=Maharajah%20Institute%20of%20Medical%20Sciences%20Vizianagaram&output=embed",
+      phone: "+91 8922334455",
+      address: "Nellimarla, Vizianagaram"
+    },
+    "Queen’s NRI Hospital": {
+      img: "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670559278011_HospitalProfileImage_NR1%201234.png",
+      map: "https://maps.google.com/maps?q=Queens%20NRI%20Hospital%20Vizianagaram&output=embed",
+      phone: "+91 8922556677",
+      address: "Ring Road, Vizianagaram"
+    },
+    "District Hospital": {
+      img: "https://content.jdmagicbox.com/comp/vizianagaram/dc/9999p8922.8922.090909050359.f8l4dc/catalogue/maharaja-district-hospital-vizianagaram-city-vizianagaram-public-hospitals-61z5kxgjnk.jpg",
+      map: "https://maps.google.com/maps?q=District%20Hospital%20Vizianagaram&output=embed",
+      phone: "+91 8922667788",
+      address: "Main Road, Vizianagaram"
+    },
+    "Kashvi Hospital": {
+      img: "https://i.ytimg.com/vi/AfpmUF5jPsQ/sddefault.jpg",
+      map: "https://maps.google.com/maps?q=Kashvi%20Hospital%20Vizianagaram&output=embed",
+      phone: "+91 8922445566",
+      address: "Ring Road, Vizianagaram"
+    },
+    "Sri Sai Hospital": {
+      img: "https://content3.jdmagicbox.com/comp/vizianagaram/l9/9999p8922.8922.230112114303.w4l9/catalogue/sri-sai-super-specialty-hospital-siddarth-nagar-vizianagaram-hospitals-9qvql0mo51.jpg",
+      map: "https://maps.google.com/maps?q=Sri%20Sai%20Hospital%20Vizianagaram&output=embed",
+      phone: "+91 8922112233",
+      address: "Fort Road, Vizianagaram"
+    }
+  }
+};
+
+
+  function updateHospitals(selectId, district){
+    const select=document.getElementById(selectId);
+    select.innerHTML='<option value="">--Select Hospital--</option>';
+    if(!district||!hospitals[district])return;
+    Object.keys(hospitals[district]).forEach(h=>{
+      const opt=document.createElement('option'); opt.value=h; opt.text=h; select.add(opt);
+    });
+  }
+
+  function showHospitalInfo(prefix){
+    const district=document.getElementById(prefix+'district').value;
+    const hospital=document.getElementById(prefix+'hospital').value;
+    const container=document.getElementById(prefix+'info');
+    if(!district||!hospital||!hospitals[district][hospital]){container.innerHTML='';return;}
+    const h=hospitals[district][hospital];
+    container.innerHTML=`
+      <h3>${hospital}</h3>
+      <img class="hospital-photo" src="${h.img}" alt="${hospital}">
+      <div class="hospital-contact">
+        <p><strong>📍 Address:</strong> ${h.address}</p>
+        <p><strong>📞 Phone:</strong> ${h.phone}</p>
+      </div>
+      <iframe class="map-embed" src="${h.map}"></iframe>`;
+  }
+
+  function openForm(formKey){
+    document.getElementById('donate').classList.toggle('active',formKey==='donate');
+    document.getElementById('request').classList.toggle('active',formKey==='request');
+    document.getElementById('tab-donate').classList.toggle('active',formKey==='donate');
+    document.getElementById('tab-request').classList.toggle('active',formKey==='request');
+  }
+
+  const donateQuotes=[
+    "A single pint of blood can save up to three lives — be a hero today.",
+    "Donate blood: the simplest kindness with the biggest impact.",
+    "You don’t have to be a doctor to save lives — be a donor."
+  ];
+  const requestQuotes=[
+    "Blood donation is the real act of humanity.",
+    "The blood you donate gives someone another chance at life.",
+    "Give blood, give hope, give life."
+  ];
+  const healthQuotes=[
+    "A healthy donor creates a healthier world.",
+    "Wellness grows when shared.",
+    "Strong body, stronger community."
+  ];
+  const communityQuotes=[
+    "We rise by lifting others.",
+    "Kindness is free — donate blood.",
+    "Your act of giving saves families."
+  ];
+  function rotateQuotes(){
+    document.getElementById('donateQuote').innerText=donateQuotes[Math.floor(Math.random()*donateQuotes.length)];
+    document.getElementById('requestQuote').innerText=requestQuotes[Math.floor(Math.random()*requestQuotes.length)];
+    document.getElementById('healthQuote').innerText=healthQuotes[Math.floor(Math.random()*healthQuotes.length)];
+    document.getElementById('communityQuote').innerText=communityQuotes[Math.floor(Math.random()*communityQuotes.length)];
+  }
+  rotateQuotes();
+  setInterval(rotateQuotes,6000);
+
+      </script>
+</body>
+</html>
