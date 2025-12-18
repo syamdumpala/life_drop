@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blood Donation - Login</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, rgba(218,68,83,0.9), rgba(137,33,107,0.9)),
+                  url('https://png.pngtree.com/background/20210711/original/pngtree-geometric-gradient-creative-blood-donation-poster-background-material-picture-image_1127152.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-box {
+      background: rgba(255,255,255,0.96);
+      padding: 40px 40px 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(140,32,65,0.3);
+      width: 320px;
+      animation: fadeInDown 1s;
+    }
+
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-40px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+
+    .login-box h2 {
+      color: #DA4453;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1.5px solid #DA4453;
+      border-radius: 8px;
+      outline: none;
+      background: #f8f8f8;
+      font-size: 1em;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: #89216B;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #DA4453, #89216B);
+      color: white;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(218,68,83,0.25);
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(218,68,83,0.35);
+    }
+
+    .switch-link {
+      display: block;
+      text-align: center;
+      margin-top: 17px;
+      color: #DA4453;
+      text-decoration: none;
+      font-size: 0.97em;
+    }
+
+    .switch-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <!-- Form now redirects to your local file -->
+    <form action="file:///C:/Users/syamd/OneDrive/Desktop/project%20demo/home.html" method="get">
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+      </div>
+      <button type="submit" class="btn-login">Login</button>
+      <a href="C:\Users\syamd\OneDrive\Desktop\project demo\regestration.html" class="switch-link">Don't have an account? Register</a>
+    </form>
+  </div>
+</body>
+</html>
